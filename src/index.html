@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <title>Notes App</title>
@@ -7,8 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      direction: ltr !important;
+      text-align: start !important;
+      unicode-bidi: normal !important;
+    }
+    [contenteditable] {
+      direction: ltr !important;
+      text-align: left !important;
+      unicode-bidi: normal !important;
+    }
+    input[type="text"] {
+      direction: ltr !important;
+      text-align: left !important;
+      unicode-bidi: normal !important;
+    }
+  </style>
 </head>
-<body>
-  <app-root></app-root>
+<body dir="ltr">
+  <app-root dir="ltr"></app-root>
 </body>
 </html>

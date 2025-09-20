@@ -26,17 +26,16 @@
 
     <!-- Content Editor -->
     <div class="content-section">
-      <div
+      <textarea
         #contentEditor
         class="content-editor"
-        contenteditable="true"
-        [innerHTML]="currentContent"
+        [value]="currentContent"
         (input)="onContentInput($event)"
         (keydown)="onContentKeyDown($event)"
-        data-placeholder="Start writing..."
+        placeholder="Start writing..."
         dir="ltr"
         style="text-align: left !important; direction: ltr !important;">
-      </div>
+      </textarea>
     </div>
   </div>
 
@@ -44,9 +43,7 @@
   <div class="format-hint">
     <div class="hint-content">
       <span class="hint-text">
-        <kbd>Ctrl+B</kbd> Bold • 
-        <kbd>Ctrl+I</kbd> Italic • 
-        <kbd>Ctrl+U</kbd> Underline
+        Plain text editor - <kbd>Tab</kbd> for indentation
       </span>
     </div>
   </div>

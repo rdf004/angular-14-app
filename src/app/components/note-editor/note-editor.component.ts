@@ -12,7 +12,7 @@ import { NotesService } from '../../services/notes.service';
 export class NoteEditorComponent implements OnInit, OnDestroy {
   @Input() note!: Note;
   @ViewChild('titleInput', { static: false }) titleInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('contentEditor', { static: false }) contentEditor!: ElementRef<HTMLDivElement>;
+  @ViewChild('contentEditor', { static: false }) contentEditor!: ElementRef<HTMLTextAreaElement>;
 
   private destroy$ = new Subject<void>();
   private titleChange$ = new Subject<string>();
@@ -29,6 +29,11 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
       this.currentContent = this.note.content;
     }
 
+    // Force LTR on initial load
+    setTimeout(() => {
+      this.forceLTRDirection();
+    }, 0);
+
     // Debounce title changes
     this.titleChange$
       .pipe(debounceTime(500), takeUntil(this.destroy$))
@@ -44,6 +49,24 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
       });
   }
 
+  private forceLTRDirection(): void {
+    if (this.titleInput) {
+      const titleEl = this.titleInput.nativeElement;
+      titleEl.style.direction = 'ltr';
+      titleEl.style.textAlign = 'left';
+      titleEl.style.unicodeBidi = 'normal';
+      titleEl.setAttribute('dir', 'ltr');
+    }
+
+    if (this.contentEditor) {
+      const contentEl = this.contentEditor.nativeElement;
+      contentEl.style.direction = 'ltr';
+      contentEl.style.textAlign = 'left';
+      contentEl.style.unicodeBidi = 'normal';
+      contentEl.setAttribute('dir', 'ltr');
+    }
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -51,6 +74,13 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
 
   onTitleChange(event: Event): void {
     const target = event.target as HTMLInputElement;
+    
+    // Force LTR direction on the element
+    target.style.direction = 'ltr';
+    target.style.textAlign = 'left';
+    target.style.unicodeBidi = 'normal';
+    target.setAttribute('dir', 'ltr');
+    
     this.currentTitle = target.value;
     this.titleChange$.next(this.currentTitle);
   }
@@ -63,55 +93,68 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
   }
 
   onContentInput(event: Event): void {
-    const target = event.target as HTMLDivElement;
-    this.currentContent = target.innerHTML;
+    const target = event.target as HTMLTextAreaElement;
+    
+    // Force LTR direction on the element
+    target.style.direction = 'ltr';
+    target.style.textAlign = 'left';
+    target.style.unicodeBidi = 'normal';
+    target.setAttribute('dir', 'ltr');
+    
+    this.currentContent = target.value;
     this.contentChange$.next(this.currentContent);
   }
 
   onContentKeyDown(event: KeyboardEvent): void {
-    // Handle some basic formatting shortcuts
-    if (event.ctrlKey || event.metaKey) {
-      switch (event.key) {
-        case 'b':
-          event.preventDefault();
-          this.toggleFormat('bold');
-          break;
-        case 'i':
-          event.preventDefault();
-          this.toggleFormat('italic');
-          break;
-        case 'u':
-          event.preventDefault();
-          this.toggleFormat('underline');
-          break;
-      }
+    // Basic keyboard shortcuts for textarea
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      const target = event.target as HTMLTextAreaElement;
+      const start = target.selectionStart;
+      const end = target.selectionEnd;
+      
+      // Insert tab character
+      target.value = target.value.substring(0, start) + '\t' + target.value.substring(end);
+      target.selectionStart = target.selectionEnd = start + 1;
+      
+      // Trigger change
+      this.currentContent = target.value;
+      this.contentChange$.next(this.currentContent);
     }
   }
 
-  private toggleFormat(command: string): void {
-    document.execCommand(command, false);
-    this.contentEditor.nativeElement.focus();
-  }
+  // Removed toggleFormat since we're using textarea now
 
   private focusContent(): void {
     if (this.contentEditor) {
-      this.contentEditor.nativeElement.focus();
+      const element = this.contentEditor.nativeElement;
       
-      // Place cursor at the end
-      const range = document.createRange();
-      const selection = window.getSelection();
-      range.selectNodeContents(this.contentEditor.nativeElement);
-      range.collapse(false);
-      selection?.removeAllRanges();
-      selection?.addRange(range);
+      // Force LTR before focusing
+      element.style.direction = 'ltr';
+      element.style.textAlign = 'left';
+      element.style.unicodeBidi = 'normal';
+      element.setAttribute('dir', 'ltr');
+      
+      element.focus();
+      
+      // Place cursor at the end for textarea
+      element.setSelectionRange(element.value.length, element.value.length);
     }
   }
 
   focusTitle(): void {
     setTimeout(() => {
       if (this.titleInput) {
-        this.titleInput.nativeElement.focus();
-        this.titleInput.nativeElement.select();
+        const element = this.titleInput.nativeElement;
+        
+        // Force LTR before focusing
+        element.style.direction = 'ltr';
+        element.style.textAlign = 'left';
+        element.style.unicodeBidi = 'normal';
+        element.setAttribute('dir', 'ltr');
+        
+        element.focus();
+        element.select();
       }
     });
   }

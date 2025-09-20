@@ -1,0 +1,81 @@
+<div class="reflection-pane">
+  <div class="reflection-header">
+    <h3 class="reflection-title">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 1L10.09 5.26L15 6L11 9.74L12 15L8 12.5L4 15L5 9.74L1 6L5.91 5.26L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      AI Reflection
+    </h3>
+  </div>
+
+  <div class="reflection-content">
+    <!-- Get Reflection Button -->
+    <div class="reflection-actions" *ngIf="!hasReflection">
+      <button 
+        class="reflect-btn"
+        [disabled]="!noteHasContent || isLoading"
+        (click)="onGetReflection()"
+        [class.loading]="isLoading">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" *ngIf="!isLoading">
+          <path d="M8 2V8L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <div class="spinner" *ngIf="isLoading"></div>
+        {{ isLoading ? 'Reflecting...' : 'Get AI Reflection' }}
+      </button>
+      
+      <p class="reflection-help" *ngIf="!noteHasContent">
+        Write something in your note to get AI reflection and insights.
+      </p>
+    </div>
+
+    <!-- Reflection Result -->
+    <div class="reflection-result" *ngIf="hasReflection && reflection">
+      <div class="reflection-text">
+        <div class="reflection-content-text">{{ reflection }}</div>
+      </div>
+      
+      <div class="reflection-result-actions">
+        <button class="secondary-btn" (click)="onGetReflection()" [disabled]="isLoading">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 7C11 9.2091 9.2091 11 7 11C4.7909 11 3 9.2091 3 7C3 4.7909 4.7909 3 7 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M7 1V3M7 3L5 5M7 3L9 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Refresh
+        </button>
+        
+        <button class="secondary-btn" (click)="onClearReflection()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Clear
+        </button>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="reflection-error" *ngIf="error">
+      <div class="error-content">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 5V8M8 11H8.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <p>{{ error }}</p>
+      </div>
+      
+      <button class="secondary-btn" (click)="onGetReflection()" *ngIf="noteHasContent">
+        Try Again
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div class="reflection-empty" *ngIf="!note">
+      <div class="empty-content">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2L19.09 10.26L28 12L22 17.74L24 28L16 23L8 28L10 17.74L4 12L12.91 10.26L16 2Z" stroke="#CBD5E0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p>Select a note to get AI reflection and insights</p>
+      </div>
+    </div>
+  </div>
+</div>
