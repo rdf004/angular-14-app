@@ -1,0 +1,51 @@
+<div class="note-list-container">
+  <div class="note-list-header">
+    <h2 class="note-count">
+      {{ (notes$ | async)?.length || 0 }} 
+      {{ ((notes$ | async)?.length === 1) ? 'note' : 'notes' }}
+    </h2>
+  </div>
+  
+  <div class="note-list" *ngIf="(notes$ | async) as notes">
+    <div 
+      *ngFor="let note of notes; trackBy: trackByNoteId"
+      class="note-item"
+      [class.selected]="(selectedNote$ | async)?.id === note.id"
+      (click)="onSelectNote(note.id)">
+      
+      <div class="note-item-content">
+        <div class="note-item-header">
+          <h3 class="note-title" [title]="note.title">
+            {{ note.title || 'Untitled' }}
+          </h3>
+          <button 
+            class="delete-btn" 
+            (click)="onDeleteNote($event, note.id)"
+            title="Delete note">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="note-meta">
+          <span class="note-date">{{ formatDate(note.updatedAt) }}</span>
+        </div>
+        
+        <p class="note-preview">{{ getPreviewText(note.content) }}</p>
+      </div>
+    </div>
+
+    <div class="empty-list" *ngIf="notes.length === 0">
+      <div class="empty-list-content">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 8C6 7.44772 6.44772 7 7 7H20L25 12V24C25 24.5523 24.5523 25 24 25H7C6.44772 25 6 24.5523 6 24V8Z" 
+                stroke="#CBD5E0" stroke-width="1.5" fill="#F7FAFC"/>
+          <path d="M20 7V12H25" stroke="#CBD5E0" stroke-width="1.5" fill="none"/>
+        </svg>
+        <p>No notes yet</p>
+        <span>Create your first note to get started</span>
+      </div>
+    </div>
+  </div>
+</div>

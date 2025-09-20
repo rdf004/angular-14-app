@@ -1,0 +1,48 @@
+<div class="app-container" dir="ltr">
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-content">
+      <h1 class="app-title">Notes</h1>
+      <button 
+        class="create-note-btn" 
+        (click)="onCreateNewNote()"
+        title="Create new note">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        New Note
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="app-content">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <app-note-list></app-note-list>
+    </aside>
+
+    <!-- Main Area -->
+    <main class="main-area">
+      <app-note-editor 
+        *ngIf="selectedNote$ | async as selectedNote"
+        [note]="selectedNote">
+      </app-note-editor>
+      
+      <div class="empty-state" *ngIf="!(selectedNote$ | async)">
+        <div class="empty-content">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 12C8 10.8954 8.89543 10 10 10H30L40 20V36C40 37.1046 39.1046 38 38 38H10C8.89543 38 8 37.1046 8 36V12Z" 
+                  stroke="#CBD5E0" stroke-width="2" fill="#F7FAFC"/>
+            <path d="M30 10V20H40" stroke="#CBD5E0" stroke-width="2" fill="none"/>
+          </svg>
+          <h2>Select a note to start writing</h2>
+          <p>Choose a note from the sidebar or create a new one to begin.</p>
+          <button class="create-first-note-btn" (click)="onCreateNewNote()">
+            Create your first note
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

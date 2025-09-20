@@ -1,0 +1,53 @@
+<div class="editor-container" *ngIf="note" dir="ltr">
+  <!-- Editor Header -->
+  <div class="editor-header">
+    <div class="note-metadata">
+      <span class="note-date">{{ formatDate(note.updatedAt) }}</span>
+    </div>
+  </div>
+
+  <!-- Editor Content -->
+  <div class="editor-content">
+    <!-- Title Input -->
+    <div class="title-section">
+      <input
+        #titleInput
+        type="text"
+        class="title-input"
+        [value]="currentTitle"
+        (input)="onTitleChange($event)"
+        (keydown)="onTitleKeyDown($event)"
+        placeholder="Untitled"
+        autocomplete="off"
+        spellcheck="false"
+        dir="ltr"
+        style="text-align: left !important; direction: ltr !important;">
+    </div>
+
+    <!-- Content Editor -->
+    <div class="content-section">
+      <div
+        #contentEditor
+        class="content-editor"
+        contenteditable="true"
+        [innerHTML]="currentContent"
+        (input)="onContentInput($event)"
+        (keydown)="onContentKeyDown($event)"
+        data-placeholder="Start writing..."
+        dir="ltr"
+        style="text-align: left !important; direction: ltr !important;">
+      </div>
+    </div>
+  </div>
+
+  <!-- Format Hint -->
+  <div class="format-hint">
+    <div class="hint-content">
+      <span class="hint-text">
+        <kbd>Ctrl+B</kbd> Bold • 
+        <kbd>Ctrl+I</kbd> Italic • 
+        <kbd>Ctrl+U</kbd> Underline
+      </span>
+    </div>
+  </div>
+</div>
