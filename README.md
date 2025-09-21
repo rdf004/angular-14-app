@@ -2,6 +2,8 @@
 
 A minimalist notes application built with Angular 14, featuring a canvas-style editor similar to Notion.
 
+> **Note**: This is a demo application showcasing Angular 14 capabilities with a clean, modern interface.
+
 ## Features
 
 - **Two-pane layout**: Left sidebar for note list, main area for editing
