@@ -7,6 +7,7 @@ import { NoteListComponent } from './components/note-list/note-list.component';
 import { NoteEditorComponent } from './components/note-editor/note-editor.component';
 import { ReflectionPaneComponent } from './components/reflection-pane/reflection-pane.component';
 import { ApiKeyModalComponent } from './components/api-key-modal/api-key-modal.component';
+import { QuoteModalComponent } from './components/quote-modal/quote-modal.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ApiKeyModalComponent } from './components/api-key-modal/api-key-modal.c
     NoteListComponent,
     NoteEditorComponent,
     ReflectionPaneComponent,
-    ApiKeyModalComponent
+    ApiKeyModalComponent,
+    QuoteModalComponent
   ],
   imports: [
     BrowserModule,
