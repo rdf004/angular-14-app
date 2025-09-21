@@ -69,6 +69,45 @@ src/
 - Local Storage API
 - CSS3 with Flexbox
 - Inter font family
+- Playwright (E2E testing)
+- Jasmine/Karma (Unit testing)
+
+## Testing
+
+This application includes comprehensive test coverage using both unit tests and end-to-end tests.
+
+### Unit Tests (Jasmine/Karma)
+```bash
+# Run unit tests
+npm test
+
+# Run unit tests in watch mode
+npm run test -- --watch
+```
+
+### End-to-End Tests (Playwright)
+```bash
+# Run all E2E tests (headless)
+npm run test:e2e
+
+# Run E2E tests with browser UI visible
+npm run test:e2e:headed
+
+# Run E2E tests with Playwright UI for debugging
+npm run test:e2e:ui
+
+# Run E2E tests in debug mode
+npm run test:e2e:debug
+```
+
+The E2E test suite covers:
+- **Note Creation**: Empty state, new note button, multiple notes
+- **Note Editing**: Title/content editing, auto-save, special characters
+- **Note Selection**: Clicking, highlighting, switching between notes
+- **Note Deletion**: Hover button, confirmation, auto-selection
+- **Local Storage**: Persistence, data integrity, error handling
+
+For detailed testing information, see [docs/TESTING.md](docs/TESTING.md).
 
 ## Development
 
