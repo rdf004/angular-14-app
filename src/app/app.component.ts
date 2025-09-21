@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 export class AppComponent implements OnInit {
   selectedNote$: Observable<Note | null>;
   showApiKeyModal: boolean = false;
+  showQuoteModal: boolean = false;
   
   constructor(private notesService: NotesService) {
     this.selectedNote$ = this.notesService.selectedNote$;
@@ -35,5 +36,13 @@ export class AppComponent implements OnInit {
 
   onCloseApiKeyModal(): void {
     this.showApiKeyModal = false;
+  }
+
+  onOpenQuoteModal(): void {
+    this.showQuoteModal = true;
+  }
+
+  onCloseQuoteModal(): void {
+    this.showQuoteModal = false;
   }
 }

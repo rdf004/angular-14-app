@@ -124,6 +124,37 @@ export class NotesService {
       : textContent || 'No additional text';
   }
 
+  getRandomQuote(): string {
+    const notes = this.notesSubject.value;
+    
+    if (notes.length === 0) {
+      return "Create some notes first, and I'll find beautiful quotes from your thoughts!";
+    }
+
+    const allSentences: string[] = [];
+    
+    notes.forEach(note => {
+      if (note.content && note.content.trim()) {
+        const cleanContent = note.content.replace(/<[^>]*>/g, '').trim();
+        
+        const sentences = cleanContent
+          .split(/[.!?]+/)
+          .map(s => s.trim())
+          .filter(s => s.length > 10 && s.length < 200)
+          .filter(s => !s.match(/^(https?:\/\/|www\.)/));
+        
+        allSentences.push(...sentences);
+      }
+    });
+
+    if (allSentences.length === 0) {
+      return "Write some longer thoughts in your notes, and I'll find inspiring quotes to share!";
+    }
+
+    const randomIndex = Math.floor(Math.random() * allSentences.length);
+    return allSentences[randomIndex];
+  }
+
   private generateId(): string {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }

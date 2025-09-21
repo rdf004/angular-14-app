@@ -57,6 +57,25 @@
   transform: translateY(-1px);
 }
 
+.quote-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #f7fafc;
+  color: #6366f1;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.quote-btn:hover {
+  background-color: #edf2f7;
+  color: #5b21b6;
+  transform: translateY(-1px);
+}
+
 .create-note-btn {
   display: flex;
   align-items: center;
