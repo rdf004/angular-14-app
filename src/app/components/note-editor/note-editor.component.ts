@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Subject, debounceTime } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs';
 import { Note } from '../../models/note.model';
 import { NotesService } from '../../services/notes.service';
 
