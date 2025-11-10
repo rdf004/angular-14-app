@@ -55,9 +55,11 @@ export class NoteListPage {
     const deleteButton = noteItem.locator('.delete-btn');
     await deleteButton.click();
     
-    this.page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
+    const modal = this.page.locator('app-delete-confirmation-modal');
+    await modal.waitFor({ state: 'visible', timeout: 2000 });
+    
+    const confirmButton = modal.locator('.btn-delete');
+    await confirmButton.click();
     
     await this.page.waitForTimeout(100); // Wait for deletion to complete
   }
@@ -71,9 +73,11 @@ export class NoteListPage {
     const deleteButton = noteItem.locator('.delete-btn');
     await deleteButton.click();
     
-    this.page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
+    const modal = this.page.locator('app-delete-confirmation-modal');
+    await modal.waitFor({ state: 'visible', timeout: 2000 });
+    
+    const confirmButton = modal.locator('.btn-delete');
+    await confirmButton.click();
     
     await this.page.waitForTimeout(100);
   }

@@ -1,0 +1,34 @@
+<div class="modal-overlay" (click)="onOverlayClick($event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="icon-container">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6H20M6 6V5C6 3.89543 6.89543 3 8 3H16C17.1046 3 18 3.89543 18 5V6M8 10V17M12 10V17M16 10V17M5 6H19V19C19 20.1046 18.1046 21 17 21H7C5.89543 21 5 20.1046 5 19V6Z" stroke="#E53E3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2>Delete Note?</h2>
+    </div>
+    
+    <div class="modal-body">
+      <p class="warning-text">
+        Are you sure you want to delete 
+        <strong class="note-title-highlight">{{ noteTitle || 'this note' }}</strong>?
+      </p>
+      <p class="info-text">
+        This action cannot be undone.
+      </p>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-cancel" (click)="onCancel()">
+        Cancel
+      </button>
+      <button class="btn btn-delete" (click)="onConfirm()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 4H13M5 4V3C5 2.44772 5.44772 2 6 2H10C10.5523 2 11 2.44772 11 3V4M6.5 7V11M9.5 7V11M4 4H12V13C12 13.5523 11.5523 14 11 14H5C4.44772 14 4 13.5523 4 13V4Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Delete Note
+      </button>
+    </div>
+  </div>
+</div>

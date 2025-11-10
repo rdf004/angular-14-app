@@ -8,6 +8,7 @@ import { NoteEditorComponent } from './components/note-editor/note-editor.compon
 import { ReflectionPaneComponent } from './components/reflection-pane/reflection-pane.component';
 import { ApiKeyModalComponent } from './components/api-key-modal/api-key-modal.component';
 import { QuoteModalComponent } from './components/quote-modal/quote-modal.component';
+import { DeleteConfirmationModalComponent } from './components/delete-confirmation-modal/delete-confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { QuoteModalComponent } from './components/quote-modal/quote-modal.compon
     NoteEditorComponent,
     ReflectionPaneComponent,
     ApiKeyModalComponent,
-    QuoteModalComponent
+    QuoteModalComponent,
+    DeleteConfirmationModalComponent
   ],
   imports: [
     BrowserModule,

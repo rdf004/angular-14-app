@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Subject, debounceTime } from 'rxjs';
 import { takeUntil } from 'rxjs';
 import { Note } from '../../models/note.model';
@@ -11,6 +11,7 @@ import { NotesService } from '../../services/notes.service';
 })
 export class NoteEditorComponent implements OnInit, OnDestroy {
   @Input() note!: Note;
+  @Output() deleteRequested = new EventEmitter<void>();
   @ViewChild('titleInput', { static: false }) titleInput!: ElementRef<HTMLInputElement>;
   @ViewChild('contentEditor', { static: false }) contentEditor!: ElementRef<HTMLTextAreaElement>;
 
@@ -20,6 +21,7 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
 
   currentTitle = '';
   currentContent = '';
+  showDeleteModal = false;
 
   constructor(private notesService: NotesService) {}
 
@@ -167,5 +169,18 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
       hour: '2-digit',
       minute: '2-digit'
     });
+  }
+
+  onDeleteNote(): void {
+    this.showDeleteModal = true;
+  }
+
+  confirmDelete(): void {
+    this.notesService.deleteNote(this.note.id);
+    this.closeDeleteModal();
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
   }
 }

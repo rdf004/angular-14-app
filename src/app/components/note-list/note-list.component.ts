@@ -12,6 +12,8 @@ import { map } from 'rxjs';
 export class NoteListComponent implements OnInit {
   notes$: Observable<Note[]>;
   selectedNote$: Observable<Note | null>;
+  showDeleteModal = false;
+  noteToDelete: { id: string; title: string } | null = null;
   
   constructor(private notesService: NotesService) {
     this.notes$ = this.notesService.notes$;
@@ -26,9 +28,23 @@ export class NoteListComponent implements OnInit {
 
   onDeleteNote(event: Event, noteId: string): void {
     event.stopPropagation(); // Prevent note selection
-    if (confirm('Are you sure you want to delete this note?')) {
-      this.notesService.deleteNote(noteId);
+    this.notes$.subscribe(notes => {
+      const note = notes.find(n => n.id === noteId);
+      this.noteToDelete = { id: noteId, title: note?.title || 'Untitled' };
+      this.showDeleteModal = true;
+    }).unsubscribe();
+  }
+
+  confirmDelete(): void {
+    if (this.noteToDelete) {
+      this.notesService.deleteNote(this.noteToDelete.id);
     }
+    this.closeDeleteModal();
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
+    this.noteToDelete = null;
   }
 
   formatDate(date: Date): string {

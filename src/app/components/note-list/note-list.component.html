@@ -21,9 +21,10 @@
           <button 
             class="delete-btn" 
             (click)="onDeleteNote($event, note.id)"
-            title="Delete note">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            title="Delete note"
+            aria-label="Delete note">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 4H13M5 4V3C5 2.44772 5.44772 2 6 2H10C10.5523 2 11 2.44772 11 3V4M6.5 7V11M9.5 7V11M4 4H12V13C12 13.5523 11.5523 14 11 14H5C4.44772 14 4 13.5523 4 13V4Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
         </div>
@@ -49,3 +50,10 @@
     </div>
   </div>
 </div>
+
+<app-delete-confirmation-modal
+  *ngIf="showDeleteModal"
+  [noteTitle]="noteToDelete?.title || ''"
+  (confirm)="confirmDelete()"
+  (cancel)="closeDeleteModal()">
+</app-delete-confirmation-modal>

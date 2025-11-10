@@ -81,13 +81,19 @@
 }
 
 .delete-btn {
-  opacity: 0;
-  padding: 4px;
+  opacity: 0.4;
+  padding: 6px;
   border-radius: 4px;
-  color: #a0aec0;
+  color: #718096;
   margin-left: 8px;
   flex-shrink: 0;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .note-item:hover .delete-btn {
@@ -95,8 +101,14 @@
 }
 
 .delete-btn:hover {
-  background-color: #fed7d7;
-  color: #e53e3e;
+  background-color: #fee;
+  border-color: #fc8181;
+  color: #c53030;
+  transform: scale(1.05);
+}
+
+.delete-btn:active {
+  transform: scale(0.95);
 }
 
 .note-meta {

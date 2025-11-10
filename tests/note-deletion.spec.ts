@@ -33,21 +33,18 @@ test.describe('Note Deletion', () => {
     const noteItem = noteList.noteItems.first();
     const deleteButton = noteItem.locator('.delete-btn');
     
-    expect(await deleteButton.isVisible()).toBe(false);
+    const initialOpacity = await deleteButton.evaluate(el => window.getComputedStyle(el).opacity);
+    expect(parseFloat(initialOpacity)).toBeLessThan(1);
     
     await noteItem.hover();
     await page.waitForTimeout(200);
     
-    expect(await deleteButton.isVisible()).toBe(true);
+    const hoverOpacity = await deleteButton.evaluate(el => window.getComputedStyle(el).opacity);
+    expect(parseFloat(hoverOpacity)).toBe(1);
   });
 
   test('should delete note with confirmation', async ({ page }) => {
     const initialCount = await noteList.getNoteCount();
-    
-    page.on('dialog', async dialog => {
-      expect(dialog.message()).toContain('Are you sure you want to delete this note?');
-      await dialog.accept();
-    });
     
     await noteList.deleteNoteByTitle('Third Note');
     
@@ -60,10 +57,6 @@ test.describe('Note Deletion', () => {
   test('should cancel deletion when confirmation is rejected', async ({ page }) => {
     const initialCount = await noteList.getNoteCount();
     
-    page.on('dialog', async dialog => {
-      await dialog.dismiss();
-    });
-    
     const noteItem = noteList.noteItems.first();
     await noteItem.hover();
     await page.waitForTimeout(200);
@@ -71,14 +64,18 @@ test.describe('Note Deletion', () => {
     const deleteButton = noteItem.locator('.delete-btn');
     await deleteButton.click();
     
+    const modal = page.locator('app-delete-confirmation-modal');
+    await modal.waitFor({ state: 'visible', timeout: 2000 });
+    
+    const cancelButton = modal.locator('.btn-cancel');
+    await cancelButton.click();
+    
+    await page.waitForTimeout(100);
+    
     expect(await noteList.getNoteCount()).toBe(initialCount);
   });
 
   test('should auto-select next note after deletion', async ({ page }) => {
-    page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
-    
     await noteList.selectNoteByTitle('Second Note');
     await noteList.deleteNoteByTitle('Second Note');
     
@@ -91,10 +88,6 @@ test.describe('Note Deletion', () => {
   });
 
   test('should handle deletion of last remaining note', async ({ page }) => {
-    page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
-    
     await noteList.deleteNoteByTitle('Third Note');
     await noteList.deleteNoteByTitle('Second Note');
     await noteList.deleteNoteByTitle('First Note');
@@ -106,10 +99,6 @@ test.describe('Note Deletion', () => {
   });
 
   test('should remove note from localStorage after deletion', async ({ page }) => {
-    page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
-    
     await noteList.deleteNoteByTitle('Second Note');
     
     const notes = await notesApp.utils.getNotesFromStorage();
@@ -123,11 +112,7 @@ test.describe('Note Deletion', () => {
 
   test('should handle deletion by index', async ({ page }) => {
     const initialTitles = await noteList.getNoteTitles();
-    const titleToDelete = initialTitles[1]; // Second note in list
-    
-    page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
+    const titleToDelete = initialTitles[1];
     
     await noteList.deleteNoteByIndex(1);
     
@@ -138,10 +123,6 @@ test.describe('Note Deletion', () => {
   });
 
   test('should persist deletion after page reload', async ({ page }) => {
-    page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
-    
     await noteList.deleteNoteByTitle('Second Note');
     
     await notesApp.page.reload();
@@ -156,10 +137,6 @@ test.describe('Note Deletion', () => {
   });
 
   test('should handle rapid deletions', async ({ page }) => {
-    page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
-    
     await noteList.deleteNoteByTitle('Third Note');
     await page.waitForTimeout(100);
     await noteList.deleteNoteByTitle('Second Note');
@@ -169,10 +146,6 @@ test.describe('Note Deletion', () => {
   });
 
   test('should prevent event bubbling when clicking delete button', async ({ page }) => {
-    page.on('dialog', async dialog => {
-      await dialog.accept();
-    });
-    
     await noteList.selectNoteByTitle('First Note');
     
     const thirdNoteItem = page.locator('.note-item', { hasText: 'Third Note' });
@@ -181,6 +154,14 @@ test.describe('Note Deletion', () => {
     
     const deleteButton = thirdNoteItem.locator('.delete-btn');
     await deleteButton.click();
+    
+    const modal = page.locator('app-delete-confirmation-modal');
+    await modal.waitFor({ state: 'visible', timeout: 2000 });
+    
+    const confirmButton = modal.locator('.btn-delete');
+    await confirmButton.click();
+    
+    await page.waitForTimeout(100);
     
     expect(await noteList.getNoteCount()).toBe(2);
     const noteTitles = await noteList.getNoteTitles();

@@ -3,6 +3,16 @@
   <div class="editor-header">
     <div class="note-metadata">
       <span class="note-date">{{ formatDate(note.updatedAt) }}</span>
+      <button 
+        class="delete-note-btn" 
+        (click)="onDeleteNote()"
+        title="Delete this note"
+        aria-label="Delete this note">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 4H13M5 4V3C5 2.44772 5.44772 2 6 2H10C10.5523 2 11 2.44772 11 3V4M6.5 7V11M9.5 7V11M4 4H12V13C12 13.5523 11.5523 14 11 14H5C4.44772 14 4 13.5523 4 13V4Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Delete Note
+      </button>
     </div>
   </div>
 
@@ -48,3 +58,10 @@
     </div>
   </div>
 </div>
+
+<app-delete-confirmation-modal
+  *ngIf="showDeleteModal"
+  [noteTitle]="note.title"
+  (confirm)="confirmDelete()"
+  (cancel)="closeDeleteModal()">
+</app-delete-confirmation-modal>

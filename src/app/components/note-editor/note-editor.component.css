@@ -27,6 +27,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 16px;
   direction: ltr !important;
 }
 
@@ -35,6 +36,38 @@
   color: #64748b;
   font-weight: 500;
   direction: ltr !important;
+}
+
+.delete-note-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #718096;
+  background-color: transparent;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.delete-note-btn:hover {
+  background-color: #fee;
+  border-color: #fc8181;
+  color: #c53030;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(229, 62, 62, 0.2);
+}
+
+.delete-note-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.delete-note-btn svg {
+  flex-shrink: 0;
 }
 
 /* Editor Content */
