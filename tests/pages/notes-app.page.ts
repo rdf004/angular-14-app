@@ -5,6 +5,7 @@ export class NotesAppPage {
   readonly page: Page;
   readonly utils: TestUtils;
   
+  readonly header: Locator;
   readonly appTitle: Locator;
   readonly newNoteButton: Locator;
   readonly settingsButton: Locator;
@@ -18,6 +19,7 @@ export class NotesAppPage {
     this.page = page;
     this.utils = new TestUtils(page);
     
+    this.header = page.locator('.app-header');
     this.appTitle = page.locator('.app-title');
     this.newNoteButton = page.locator('.create-note-btn');
     this.settingsButton = page.locator('.settings-btn');
