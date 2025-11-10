@@ -24,10 +24,10 @@ export class TestUtils {
   }
 
   /**
-   * Wait for auto-save to complete (500ms debounce)
+   * Wait for auto-save to complete (1500ms debounce)
    */
   async waitForAutoSave(): Promise<void> {
-    await this.page.waitForTimeout(600); // 500ms debounce + 100ms buffer
+    await this.page.waitForTimeout(1800); // 1500ms debounce + 300ms buffer
   }
 
   /**
