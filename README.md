@@ -122,3 +122,7 @@ This project follows Angular style guide and uses TypeScript strict mode for bet
 ## License
 
 This project is open source and available under the MIT License.
+
+## Notes
+
+This is a test change to verify repository access and PR creation workflow.
