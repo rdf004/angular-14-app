@@ -36,14 +36,14 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
 
     // Debounce title changes
     this.titleChange$
-      .pipe(debounceTime(500), takeUntil(this.destroy$))
+      .pipe(debounceTime(1500), takeUntil(this.destroy$))
       .subscribe(title => {
         this.notesService.updateNote(this.note.id, { title: title.trim() || 'Untitled' });
       });
 
     // Debounce content changes
     this.contentChange$
-      .pipe(debounceTime(500), takeUntil(this.destroy$))
+      .pipe(debounceTime(1500), takeUntil(this.destroy$))
       .subscribe(content => {
         this.notesService.updateNote(this.note.id, { content });
       });
@@ -75,12 +75,6 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
   onTitleChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     
-    // Force LTR direction on the element
-    target.style.direction = 'ltr';
-    target.style.textAlign = 'left';
-    target.style.unicodeBidi = 'normal';
-    target.setAttribute('dir', 'ltr');
-    
     this.currentTitle = target.value;
     this.titleChange$.next(this.currentTitle);
   }
@@ -94,12 +88,6 @@ export class NoteEditorComponent implements OnInit, OnDestroy {
 
   onContentInput(event: Event): void {
     const target = event.target as HTMLTextAreaElement;
-    
-    // Force LTR direction on the element
-    target.style.direction = 'ltr';
-    target.style.textAlign = 'left';
-    target.style.unicodeBidi = 'normal';
-    target.setAttribute('dir', 'ltr');
     
     this.currentContent = target.value;
     this.contentChange$.next(this.currentContent);
